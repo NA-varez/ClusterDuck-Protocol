@@ -21,6 +21,7 @@
 #include "boards/ttgo_t_beam_v1_sx1276.h"
 #include "boards/lilygo_t_beam_supreme_sx1262.h"
 #include "boards/lilygo_sim7000g_lora.h"
+#include "qb_cdpcfg.h"                            // Quackerboard CDP configuration (pin assignments)
 #endif
 
 // version definitions

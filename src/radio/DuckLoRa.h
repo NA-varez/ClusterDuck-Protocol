@@ -20,6 +20,8 @@
 #include <chrono>
 #include <random>//replace to reduce program size
 
+#include <optional> // <-- Had to add this to remove compile-time errors
+
 /**
  * @brief Internal structure to hold the LoRa module configuration
  * 

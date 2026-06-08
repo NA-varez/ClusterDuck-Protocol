@@ -12,11 +12,18 @@
 #define DUCK_RADIO_IRQ_CRC_ERROR RADIOLIB_SX127X_CLEAR_IRQ_FLAG_PAYLOAD_CRC_ERROR
 #endif
 
-#if defined(CDPCFG_RADIO_SX1262)
+#if defined(CDPCFG_CUSTOM_SPI) && defined(CDPCFG_RADIO_SX1262)
+// SX1262 with custom specified SPI bus object
+CDPCFG_LORA_CLASS lora =
+        new Module(CDPCFG_PIN_LORA_CS, CDPCFG_PIN_LORA_DIO1, CDPCFG_PIN_LORA_RST,
+                   CDPCFG_PIN_LORA_BUSY, CDPCFG_CUSTOM_SPI_OBJ);
+#elif defined(CDPCFG_RADIO_SX1262)
+// SX1262 with default SPI bus initialization handled via Arduino default
 CDPCFG_LORA_CLASS lora =
         new Module(CDPCFG_PIN_LORA_CS, CDPCFG_PIN_LORA_DIO1, CDPCFG_PIN_LORA_RST,
                    CDPCFG_PIN_LORA_BUSY);
 #else
+// SX127x fallback for DIO0/DIO1 usage
 CDPCFG_LORA_CLASS lora = new Module(CDPCFG_PIN_LORA_CS, CDPCFG_PIN_LORA_DIO0,
                   CDPCFG_PIN_LORA_RST, CDPCFG_PIN_LORA_DIO1);
 #endif
@@ -233,10 +240,14 @@ void DuckLoRa::delay(size_t size) {
         // txdelay_ms += lora.getTimeOnAir(size);
 
         loginfo_ln("Last receive was %ld ms ago, delaying transmission by %ld ms", millis() - this->lastReceiveTime, txdelay.count());
-
-        // Use FreeRTOS task delay, which will not block other tasks
-        // must pass ticks, so convert from ms to ticks
-        vTaskDelay(txdelay.count());
+        
+        #if defined(ARDUINO_ARCH_RP2040)
+            ::delay(txdelay.count());
+        # else
+            // Use FreeRTOS task delay, which will not block other tasks
+            // must pass ticks, so convert from ms to ticks
+            vTaskDelay(txdelay.count());
+        #endif
     }
 }
 

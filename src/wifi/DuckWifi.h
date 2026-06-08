@@ -8,7 +8,7 @@
 #include "../utils/DuckError.h"
 #include "../utils/DuckLogger.h"
 #include "../include/cdpcfg.h"
-#include <Update.h>
+// #include <Update.h>      <-- Removed to stop compile-time errors
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <EEPROM.h>

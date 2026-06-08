@@ -19,6 +19,7 @@
 #include "DuckError.h"
 #include <functional>
 #include <thread>
+#include <stdexcept> // <---- Had to add this to remove compile-time errors
 
 namespace duckutils {
 

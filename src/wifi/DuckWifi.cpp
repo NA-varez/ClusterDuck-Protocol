@@ -38,10 +38,11 @@ int saveWifiCredentials(std::string ssid, std::string password) {
       logerr("Invalid SSID or password\n");
       return DUCK_ERR_INVALID_ARGUMENT;
     }
-    if (!EEPROM.begin(512)) {
-      logerr("Failed to initialise EEPROM\n");
-      return DUCK_ERR_EEPROM_INIT;
-    }
+    EEPROM.begin(512);  // No return value (void) in RP2040 core, following commented code would have compile-time error
+    // if (!EEPROM.begin(512)) {
+    //   logerr("Failed to initialise EEPROM\n");
+    //   return DUCK_ERR_EEPROM_INIT;
+    // }
   
     if (ssid.length() > 0 && password.length() > 0) {
       loginfo("Clearing EEPROM\n");
@@ -67,7 +68,8 @@ int saveWifiCredentials(std::string ssid, std::string password) {
   }
   
 std::string loadWifiSsid() {
-    EEPROM.begin(512); //Initialasing EEPROM
+    // Initialasing EEPROM
+    EEPROM.begin(512);  // No return value for this function in RP2040 arduino core 
     std::string esid;
     // loop through saved SSID characters
     for (int i = 0; i < 32; ++i)
@@ -78,7 +80,8 @@ std::string loadWifiSsid() {
 }
   
 std::string loadWifiPassword() {
-    EEPROM.begin(512); //Initialasing EEPROM
+    // Initialasing EEPROM
+    EEPROM.begin(512);  // No return value for this function in RP2040 arduino core 
     std::string epass = "";
     // loop through saved Password characters
     for (int i = 32; i < 96; ++i)
