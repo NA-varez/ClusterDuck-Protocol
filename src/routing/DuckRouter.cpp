@@ -38,7 +38,8 @@ std::optional<Duid> DuckRouter::getBestNextHop(Duid targetDeviceId){
 void DuckRouter::CullRoutingTable(size_t maxSize) {
     std::size_t size = routingTable.size();
     while (size > maxSize) {
-        auto it = std::prev(routingTable.end(),1); // Get iterator to the last element
+        // auto it = std::prev(routingTable.end(),1); // Get iterator to the last element
+        auto it = routingTable.begin(); // For an unordered list, culling the first or last functions the same
         routingTable.erase(it);
         size = routingTable.size(); // Update size after erasure
     }
