@@ -1,6 +1,7 @@
 #ifndef DUCKLOGGER_H
 #define DUCKLOGGER_H
 #include "tinyformat.h"
+#include <cstdio>
 
 #ifdef CDP_DEBUG
 #define CDP_LOG_ERROR
@@ -30,15 +31,13 @@
 #endif
 
 #ifdef CDP_LOG_ERROR
-#define logerr(format, ...)                                     \
-  do {                                                          \
-    tfm::printf("[E][** %s : %d] ",__FILENAME__, __LINE__);          \
-    tfm::printf(format, ##__VA_ARGS__);                         \
+#define logerr(format, ...)                                                    \
+  do {                                                                         \
+    ::printf("[E][** %s : %d] " format, __FILENAME__, __LINE__, ##__VA_ARGS__); \
   } while (0)
-#define logerr_ln(format, ...)                                  \
-  do {                                                          \
-    tfm::printf("[E][** %s : %d] ",__FILENAME__, __LINE__);          \
-    tfm::printfln(format, ##__VA_ARGS__);        \
+#define logerr_ln(format, ...)                                                 \
+  do {                                                                         \
+    ::printf("[E][** %s : %d] " format "\n", __FILENAME__, __LINE__, ##__VA_ARGS__); \
   } while (0)
 #else
 #define logerr(format, ...)                                     \
@@ -49,16 +48,13 @@
 
 
 #ifdef CDP_LOG_WARN
-#define logwarn(format, ...)                                    \
-  do {                                                          \
-    tfm::printf("[W][%s : %d] ",__FILENAME__, __LINE__);          \
-    tfm::printf(format, ##__VA_ARGS__);                         \
+#define logwarn(format, ...)                                                   \
+  do {                                                                         \
+    ::printf("[W][%s : %d] " format, __FILENAME__, __LINE__, ##__VA_ARGS__);   \
   } while (0)
-
-#define logwarn_ln(format, ...)                                 \
-  do {                                                          \
-    tfm::printf("[W][%s : %d] ",__FILENAME__, __LINE__);             \
-    tfm::printfln(format"\n", ##__VA_ARGS__);          \
+#define logwarn_ln(format, ...)                                                \
+  do {                                                                         \
+    ::printf("[W][%s : %d] " format "\n", __FILENAME__, __LINE__, ##__VA_ARGS__); \
   } while (0)
 #else
 #define logwarn(format, ...)                                    \
@@ -68,16 +64,13 @@
 #endif // CDP_LOG_WARN
 
 #if defined(CDP_LOG_INFO)
-#define loginfo(format, ...)                                    \
-  do {                                                     \
-    tfm::printf("[I][%s] ",__FILENAME__);                        \
-    tfm::printf(format, ##__VA_ARGS__);                           \
+#define loginfo(format, ...)                                                   \
+  do {                                                                         \
+    ::printf("[I][%s] " format, __FILENAME__, ##__VA_ARGS__);                  \
   } while (0)
-
-#define loginfo_ln(format, ...)                                 \
-  do {                                                          \
-    tfm::printf("[I][%s] ",__FILENAME__);                         \
-    tfm::printfln(format, ##__VA_ARGS__);           \
+#define loginfo_ln(format, ...)                                                \
+  do {                                                                         \
+    ::printf("[I][%s] " format "\n", __FILENAME__, ##__VA_ARGS__);             \
   } while (0)
 #else
 #define loginfo(format, ...)                                    \
@@ -87,16 +80,13 @@
 #endif // CDP_LOG_INFO
 
 #ifdef CDP_LOG_DEBUG
-#define logdbg(format, ...)                                     \
-  do {                                                          \
-    tfm::printf("[D][** %s : %d] ",__FILENAME__, __LINE__);                            \
-    tfm::printf(format, ##__VA_ARGS__);                           \
+#define logdbg(format, ...)                                                    \
+  do {                                                                         \
+    ::printf("[D][** %s : %d] " format, __FILENAME__, __LINE__, ##__VA_ARGS__); \
   } while (0)
-
-#define logdbg_ln(format, ...)                                  \
-  do {                                                          \
-    tfm::printf("[D][** %s : %d] ",__FILENAME__, __LINE__);          \
-    tfm::printfln(format, ##__VA_ARGS__);          \
+#define logdbg_ln(format, ...)                                                 \
+  do {                                                                         \
+    ::printf("[D][** %s : %d] " format "\n", __FILENAME__, __LINE__, ##__VA_ARGS__); \
   } while (0)
 #else
 #define logdbg(format, ...)                                     \
